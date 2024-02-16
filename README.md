@@ -1,0 +1,2 @@
+# monoptic
+Monoptic monorepo
