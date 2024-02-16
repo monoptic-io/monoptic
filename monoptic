@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./monoptic-jdbc-cli/build/install/monoptic-jdbc-cli/bin/monoptic-jdbc-cli
+

@@ -15,8 +15,7 @@ dependencies {
   implementation libs.slf4jSimple
   implementation libs.mysqlDriver
   implementation libs.postgresDriver
-//  implementation libs.athenaDriver
-//  implementation libs.flinkDriver
+  implementation libs.slf4jSimple
 }
 
 shadowJar {
