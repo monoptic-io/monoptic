@@ -6,4 +6,10 @@ To get started, please !install the required CRDs.
 
   > !install
 
+Other important commands:
+
+  > !tables
+  > !help
+  > !q
+
 
