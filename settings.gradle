@@ -1,0 +1,12 @@
+rootProject.name='monoptic'
+
+include 'monoptic-jdbc-driver'
+include 'monoptic-jdbc-cli'
+include 'monoptic-kubernetes-models'
+
+dependencyResolutionManagement {
+  repositories {
+    mavenCentral()
+    mavenLocal()
+  }
+}
