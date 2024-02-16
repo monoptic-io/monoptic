@@ -1,0 +1,13 @@
+plugins {
+  id 'java-library'
+}
+
+dependencies {
+  api project(':monoptic-kubernetes-models')
+
+  implementation libs.kubernetesClient
+  implementation libs.kubernetesExtendedClient
+  implementation libs.calciteCore
+  implementation libs.calciteServer
+  implementation libs.avaticaCore
+}

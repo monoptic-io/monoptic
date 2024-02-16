@@ -1,0 +1,60 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: records.monoptic.io 
+spec:
+  group: monoptic.io
+  names:
+    kind: Record
+    listKind: RecordList
+    plural: records
+    singular: record
+    shortNames:
+    - rec
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          description: An arbitrary data record.
+          type: object
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            fields:
+              description: Arbitrary data fields.
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  string:
+                    type: string
+                  integer:
+                    type: integer
+                  number:
+                    type: number
+                  boolean:
+                    type: boolean
+                  array:
+                    type: array
+                    items:
+                      type: object
+                  object:
+                    type: object
+                    x-kubernetes-preserve-unkonwn-fields: true
+      additionalPrinterColumns:
+      - name: RECORD
+        type: string
+        description: Arbitrary data field.
+        jsonPath: .fields
+ 
+ 

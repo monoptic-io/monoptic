@@ -1,0 +1,59 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: views.monoptic.io 
+spec:
+  group: monoptic.io
+  names:
+    kind: View
+    listKind: ViewList
+    plural: views
+    singular: view
+    shortNames:
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          description: A SQL view.
+          type: object
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              description: View spec.
+              type: object
+              properties:
+                sql:
+                  description: SQL query.
+                  type: string
+                materialize:
+                  description: Whether the view should be materialized.
+                  type: boolean
+              required:
+              - sql
+            status:
+              type: object
+              properties: 
+                materializedView:
+                  description: The materialized version of .spec.sql.
+                  type: string
+                materializedTimestamp:
+                  description: Indicates freshness of a materialized view.
+                  type: string
+                  format: datetime
+      subresources:
+        status: {}
+      additionalPrinterColumns:
+      - name: SQL
+        type: string
+        description: View SQL.
+        jsonPath: .spec.sql
+ 

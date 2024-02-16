@@ -1,0 +1,63 @@
+plugins {
+  id 'com.github.johnrengelman.shadow' version '8.1.1'
+  id 'application'
+  id 'maven-publish'
+}
+
+application {
+  mainClass = 'io.monoptic.jdbc.MonopticCliApp'
+}
+
+dependencies {
+  implementation project(':monoptic-jdbc-driver')
+  implementation libs.sqlline
+  implementation libs.kubernetesClient
+  implementation libs.slf4jSimple
+  implementation libs.mysqlDriver
+  implementation libs.postgresDriver
+//  implementation libs.athenaDriver
+//  implementation libs.flinkDriver
+}
+
+shadowJar {
+  exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+  zip64 true
+  mergeServiceFiles()
+}
+
+publishing {
+  repositories {
+    maven {
+      name 'GitHubPackages'
+      url = 'https://maven.pkg.github.com/monoptic-io/monoptic'
+      credentials {
+        username = System.getenv('GITHUB_ACTOR')
+        password = System.getenv('GITHUB_TOKEN')
+      }
+    }
+  }
+  publications {
+    maven(MavenPublication) {
+      groupId = 'io.monoptic'
+      artifactId = 'monoptic-jdbc-cli'
+      version = System.getenv('VERSION')
+      from components.java
+      pom {
+        name = 'Monoptic JDBC CLI'
+        description = 'monoptic.io'
+        url = 'https://github.com/monoptic-io/monoptic'
+        licenses {
+          license {
+            name = 'MIT'
+            url = 'https://raw.githubusercontent.com/monoptic-io/monoptic/main/LICENSE'
+            }
+          }
+        scm {
+          connection = 'scm:git:git://github.com:monoptic-io/monoptic.git'
+          developerConnection = 'scm:git:ssh://github.com:monoptic-io/monoptic.git'
+          url = 'https://github.com/monoptic-io/monoptic'
+        }
+      }
+    }
+  }
+}
