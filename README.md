@@ -3,8 +3,9 @@ Monoptic monorepo
 
 ## Quickstart
 
-  $ ./gradlew build installDist
-  $ ./monoptic
-  monoptic> !intro
-
+```
+$ ./gradlew build installDist
+$ ./monoptic
+monoptic> !intro
+```
 
