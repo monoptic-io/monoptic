@@ -13,6 +13,7 @@ dependencies {
   implementation libs.sqlline
   implementation libs.kubernetesClient
   implementation libs.slf4jSimple
+  implementation libs.flinkDriver
   implementation libs.mysqlDriver
   implementation libs.postgresDriver
   implementation libs.slf4jSimple
