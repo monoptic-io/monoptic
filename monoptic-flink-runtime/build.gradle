@@ -1,0 +1,18 @@
+plugins {
+  id 'com.github.johnrengelman.shadow' version '8.1.1'
+  id 'distribution'
+  id 'java-library'
+}
+
+dependencies {
+  implementation project(':monoptic-kubernetes-models')
+  implementation project(':monoptic-jdbc-driver')
+
+  implementation libs.flinkDriver
+  implementation libs.flinkConnectorJdbc
+}
+
+java {
+  sourceCompatibility = "1.11"
+  targetCompatibility = "1.11"
+}

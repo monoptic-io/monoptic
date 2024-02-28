@@ -5,3 +5,8 @@ plugins {
 dependencies {
   implementation libs.kubernetesClient
 }
+
+java {
+  sourceCompatibility = "1.11"
+  targetCompatibility = "1.11"
+}
