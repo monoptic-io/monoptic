@@ -34,13 +34,50 @@ public class MonopticCliApp {
 
   public static void main(String[] args) throws Exception {
     MonopticCliApp app = new MonopticCliApp(new Properties());
-    List<String> allArgs = new ArrayList<>();
-    allArgs.add("-nn"); allArgs.add("monoptic");
-    allArgs.add("-u"); allArgs.add("jdbc:monoptic:");
-    allArgs.add("-n"); allArgs.add("");
-    allArgs.add("-p"); allArgs.add("");
-    allArgs.addAll(Arrays.asList(args));
-    int result = app.run(allArgs.toArray(new String[]{}));
+    String uri = "jdbc:monoptic:";
+    String gateway = null;
+    String serialization = "protobuf";
+    String run = null;
+    for (int i = 0; i < args.length; i++) {
+      switch (args[i]) {
+      case "--gateway":
+      case "-g":
+        requireParam("--gateway", args, i);
+        gateway = args[++i];
+        break;
+      case "--url":
+      case "--uri":
+      case "-u":
+        requireParam("--url", args, i);
+        uri = args[++i]; 
+        break; 
+      case "--serde":
+      case "--serialization":
+      case "-s":
+        requireParam("--serialization", args, i);
+        serialization = args[++i];
+        break;
+      case "--run":
+      case "-r":
+        requireParam("--run", args, i);
+        run = args[++i];
+        break;
+      default:
+        throw new IllegalArgumentException("Uknown argument " + args[i]);
+      }
+    }
+    if (gateway != null) {
+      uri = "jdbc:avatica:remote:serialization=" + serialization + ";url=" + gateway;
+    }
+    List<String> outArgs = new ArrayList<>();
+    outArgs.add("-nn"); outArgs.add("monoptic");
+    outArgs.add("-u"); outArgs.add(uri);
+    outArgs.add("-n"); outArgs.add("");
+    outArgs.add("-p"); outArgs.add("");
+    if (run != null) {
+      outArgs.add("--run=" + run);
+    }
+    int result = app.run(outArgs.toArray(new String[]{}));
     System.exit(result);
   }
 
@@ -56,6 +93,12 @@ public class MonopticCliApp {
     commandHandlers.add(new InstallCommandHandler());
     sqlline.updateCommandHandlers(commandHandlers);
     return sqlline.begin(args, null, true).ordinal();
+  }
+
+  private static void requireParam(String arg, String []args, int i) {
+    if (i + 1 > args.length || args[i + 1].charAt(0) == '-') {
+      throw new IllegalArgumentException(arg + " requires a parameter.");
+    }
   }
 
   private class IntroCommandHandler implements CommandHandler {
