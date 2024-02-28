@@ -1,32 +1,22 @@
 plugins {
-//  id 'com.github.johnrengelman.shadow' version '8.1.1'
   id 'application'
   id 'maven-publish'
 }
 
 application {
-  mainClass = 'io.monoptic.jdbc.MonopticCliApp'
+  mainClass = 'org.apache.calcite.avatica.standalone.StandaloneServer'
 }
 
 dependencies {
   implementation project(':monoptic-jdbc-driver')
-  implementation libs.sqlline
+  implementation libs.avaticaStandaloneServer
   implementation libs.kubernetesClient
   implementation libs.slf4jSimple
-  implementation libs.avaticaCore
   implementation libs.flinkDriver
   implementation libs.mysqlDriver
   implementation libs.postgresDriver
   implementation libs.slf4jSimple
 }
-
-/*
-shadowJar {
-  exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
-  zip64 true
-  mergeServiceFiles()
-}
-*/
 
 publishing {
   repositories {
@@ -42,11 +32,11 @@ publishing {
   publications {
     maven(MavenPublication) {
       groupId = 'io.monoptic'
-      artifactId = 'monoptic-jdbc-cli'
+      artifactId = 'monoptic-sql-gateway'
       version = System.getenv('VERSION')
       from components.java
       pom {
-        name = 'Monoptic JDBC CLI'
+        name = 'Monoptic SQL Gateway'
         description = 'monoptic.io'
         url = 'https://github.com/monoptic-io/monoptic'
         licenses {
