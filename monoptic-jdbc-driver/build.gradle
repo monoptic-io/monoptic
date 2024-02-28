@@ -11,3 +11,8 @@ dependencies {
   implementation libs.calciteServer
   implementation libs.avaticaCore
 }
+
+java {
+  sourceCompatibility = "1.11"
+  targetCompatibility = "1.11"
+}
